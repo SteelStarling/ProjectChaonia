@@ -43,7 +43,7 @@ public:
      * Returns the object's description
      * @return the description of the object
      */
-    std::string getDescription() const { return description; }
+    virtual std::string getDescription() const { return description; }
 
     /**
      * Prints the name of the object

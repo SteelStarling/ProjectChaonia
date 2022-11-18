@@ -5,6 +5,9 @@
 #ifndef PROJECTCHAONIA_FLAG_H
 #define PROJECTCHAONIA_FLAG_H
 
+
+#include <string>
+
 // Holds a flag to tell the program what's actually going on
 // As a side note, yes, this could be handled by a boolean right now, but I have a sneaking suspicion that that may change down the road, and reimplementing this didn't sound like fun
 // TODO: Handle how flags are going to be managed globally
