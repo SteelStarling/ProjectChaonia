@@ -18,18 +18,20 @@ private:
     std::string description;    // holds the object's description
 public:
 
+    //TODO: Solve a vs an programmatically, but that's a problem for future Taylor
+
     /**
      * Creates a new object with a given name and description
      * @param name the name of the object
      * @param description a description of the object
      */
-    Object(const string &name, const string &description);
+    Object(const string& name, const string& description);
 
     /**
      * Creates a new object with a given name
      * @param name the name of the object
      */
-    Object(const string &name);
+    Object(const string& name);
 
     /**
      * Returns the object's name
