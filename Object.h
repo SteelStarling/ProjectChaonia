@@ -12,7 +12,6 @@
 
 class Object {
 private:
-    std::vector<std::string> reservedKeywords;
     std::string name;           // holds the object's name
     std::string description;    // holds the object's description
 public:
@@ -24,13 +23,13 @@ public:
      * @param name the name of the object
      * @param description a description of the object
      */
-    Object(const string& name, const string& description);
+    Object(const std::string& name, const std::string& description);
 
     /**
      * Creates a new object with a given name
      * @param name the name of the object
      */
-    Object(const string& name);
+    Object(const std::string& name);
 
     /**
      * Returns the object's name

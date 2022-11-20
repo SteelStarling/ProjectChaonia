@@ -1,0 +1,48 @@
+3
+Main Room
+The main room of a building
+0
+Study
+A room filled with books
+3
+The Hitchhiker's Guide to the Galaxy
+The owner of this library must have good taste.
+The 7 1/2 Deaths of Evelyn Hardcastle
+A good book about time travel.
+A Brief History of Time
+The spine isn't even cracked.
+Kitchen
+A room with a table in the middle and with a strange fireman's pole descending from above.
+3
+A Clove of Garlic
+Don't eat it, you could lose Zork!
+An Ice Cold Can of Refreshing Coke
+We aren't sponsored, but we would love to be.
+Zork I: The Great Underground Empire - User's Guide
+WELCOME TO ZORK! - ZORK is a game of adventure, danger, and low cunning. In it you will explore some of the most amazing territory ever seen by mortals. No computer should be without one!
+0
+Kitchen
+1
+n
+KitchenToMain
+A small arch connects the Kitchen north to another room
+Main Room
+N
+Study
+2
+StudyToKitchen
+A fireman's pole descends into the ground
+Kitchen
+D
+StudyToMain
+A passage to the north connects to what looks to be a staircase
+Main Room
+N
+2
+MainToStudy
+A stairway leads up
+Study
+U
+MainToKitchen
+A small arch leads south into another room
+S

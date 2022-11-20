@@ -8,29 +8,28 @@
 
 #include <string>
 
+
 // Holds a flag to tell the program what's actually going on
 // As a side note, yes, this could be handled by a boolean right now, but I have a sneaking suspicion that that may change down the road, and reimplementing this didn't sound like fun
 // TODO: Handle how flags are going to be managed globally
 class Flag {
 private:
+    std::string name; // name of Flag
     bool state; // binary is just a true or false statement, used for most flags
 public:
 
     /**
      * Creates a flag with a given state
+     * @param name the name of the flag
      * @param state the state of the flag to start with, defaults to false
      */
-    Flag(bool state = false) {
-        this->state = state;
-    }
+    Flag(std::string name, bool state = false) : name(name), state(state) {}
 
     /**
      * Returns if the flag is on or off
      * @return the boolean state of the flag
      */
-    bool getState() const {
-        return this->state;
-    }
+    bool getState() const { return this->state; }
 
     /**
      * Overload cast to bool to be flag value for obvious use
@@ -42,23 +41,17 @@ public:
      * Sets flag to the provided state
      * @param state the state to set the flag to
      */
-    void setState(bool state) {
-        this->state = state;
-    }
+    void setState(bool state) { this->state = state; }
 
     /**
      * Turns the flag on
      */
-    void on() {
-        this->state = true;
-    }
+    void on() { this->state = true; }
 
     /**
      * Turns the flag off
      */
-    void off() {
-        this->state = false;
-    }
+    void off() { this->state = false; }
 };
 
 

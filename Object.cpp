@@ -5,9 +5,9 @@
 #include "Object.h"
 
 
-Object::Object(const string &name, const string &description) :name(name), description(description) {}
+Object::Object(const std::string &name, const std::string &description) :name(name), description(description) {}
 
-Object::Object(const string &name) : name(name) {
+Object::Object(const std::string &name) : name(name) {
     this->description = ((std::string)"It is a completely unremarkable ").append(name); // appends name to end of description
 }
 

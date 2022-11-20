@@ -6,9 +6,10 @@
 #define PROJECTCHAONIA_INVENTORY_H
 
 
+#include "Object.h"
+
 #include <vector>
 #include <string>
-#include "Object.h"
 
 
 class Inventory {
