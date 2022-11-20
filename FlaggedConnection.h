@@ -24,11 +24,12 @@ public:
     /**
      * Traverses a connection, returning the corresponding room or throwing an exception if closed
      * @return room across the connection
-     * Note: Throws "Connection Closed" exception if flag is false
+     * Note: Throws "Connection Closed" exception if flag is false, and prints a message pointing it out
      */
     Room& traverse() {
         if(!flag) {
-            throw string("Connection Closed");
+            std::cout << errorMessage << std::endl;
+            throw std::string("Connection Closed");
         }
 
         return traverse();

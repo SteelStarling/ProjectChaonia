@@ -4,6 +4,12 @@
 
 #include "Room.h"
 
+Room::Room(std::string name, std::string description) : Object(name, description) {
+    for(int i = 0; i < NUM_DIR; i++) {
+        connections[i] = nullptr;
+    }
+}
+
 std::string Room::getItemString() const {
     std::string itemString = ""; // start with empty string to fill
 
@@ -19,7 +25,7 @@ std::string Room::getItemString() const {
 
         // print each with numbers
         for (int i = 0; i < items.size(); i++) {
-            itemString += "    " + to_string(i) + ". " + items.at(i).getName() + "\n";
+            itemString += "    " + std::to_string(i) + ". " + items.at(i).getName() + "\n";
         }
     }
 
