@@ -17,7 +17,45 @@ private:
     std::string holdDescription; // explains how the objects are held e.g. "you are holding" or "on the floor"
     std::vector<Object*> inventory;
 public:
+    /**
+     * Creates a new inventory with the specified hold description
+     * @param holdDesc a description of the way the inventory holds objects
+     * NOTE: Example holdDesc's include "you are holding" or "on the floor"
+     */
+    Inventory(std::string holdDesc) : holdDescription(holdDesc) {}
 
+    /**
+     * Gets the inventory item at the specified location
+     * @param item the index of the item to get
+     * @return the item at the specified index
+     * NOTE: Throws "Index Out of Bounds" exception if given invalid index
+     */
+    Object& getItem(int item);
+
+    /**
+     * Removes and returns the inventory item at the specified location
+     * @param item the index of the item to get
+     * @return the item at the specified index
+     * NOTE: Throws "Index Out of Bounds" exception if given invalid index
+     */
+    Object& removeItem(int item);
+
+    /**
+     * Adds the specified item to the inventory
+     * @param o the object to add to the inventory
+     */
+    void addItem(Object& o);
+
+    /**
+     * Gets a string holding the names of every item in the room
+     * @return a string holding every item in the room separated by a newline
+     */
+    std::string getItemString() const;
+
+    /**
+     * Prints the contents of the player's inventory
+     */
+    void printInventory() const;
 };
 
 

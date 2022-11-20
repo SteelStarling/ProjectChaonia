@@ -4,3 +4,46 @@
 //
 
 #include "Inventory.h"
+
+Object& Inventory::getItem(int item) {
+    if(item >= inventory.size() || item < 0) {
+        throw std::string("Index Out of Bounds");
+    }
+
+    return *inventory.at(item);
+}
+
+Object& Inventory::removeItem(int item) {
+    if(item >= inventory.size() || item < 0) {
+        throw std::string("Index Out of Bounds");
+    }
+
+    Object& o = *inventory.at(item);
+    inventory.erase(inventory.begin() + item); // delete specified element
+
+    return o;
+}
+
+void Inventory::addItem(Object& o) {
+    inventory.push_back(&o);
+}
+
+std::string Inventory::getItemString() const {
+    std::string itemString = ""; // start with empty string to fill
+
+    // Note: endl was being weird, so we're just using \n here
+
+    if(inventory.size() > 0) { // only print if big enough
+        itemString += holdDescription + "\n"; // print description
+
+        for(int i = 0; i < inventory.size(); i++) {
+            itemString += "    " + std::to_string(i) + ". " + (*inventory.at(i)).getName() + "\n";
+        }
+    }
+
+    return itemString;
+}
+
+void Inventory::printInventory() const {
+    std::cout << getItemString();
+}

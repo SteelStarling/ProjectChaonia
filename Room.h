@@ -8,6 +8,7 @@
 
 #include "Object.h"
 #include "Connection.h"
+#include "Inventory.h"
 
 enum Direction {
     NORTH,
@@ -25,7 +26,7 @@ enum Direction {
 
 class Room : public Object {
 private:
-    vector<Object*> items; // holds all items present in the room
+    Inventory inventory; // holds all items present in the room
     Connection* connections[NUM_DIR]; // holds all connections
 public:
 
@@ -58,7 +59,7 @@ public:
      * @return the specified connection
      * NOTE: Throws Index Out of Bounds exception if given non-enum specified direction, or Invalid Direction if given an unset direction
      */
-    Connection& getConnection(Direction d) {
+    Connection& getConnection(Direction d) const {
         if(d >= NUM_DIR || d < 0) {
             throw std::string("Index Out of Bounds");
         } else if(connections[d] == nullptr) {
@@ -69,55 +70,10 @@ public:
     }
 
     /**
-     * Adds a new item to the room
-     * @param item reference to the object to add to the room's inventory
+     * Gets the inventory of the given room
+     * @return the room's inventory
      */
-    void addItem(Object& item) {
-        items.push_back(item); // adds item to inventory
-    }
-
-    /**
-     * Gets the specified object from the item list
-     * @param index the index of the item to get
-     * @return a pointer to the specified object
-     * NOTE: Throws "Index Out of Bounds" exception if given invalid index
-     */
-    Object& getItem(int index) {
-        if(index >= item.size() || index < 0) {
-            throw std::string("Index Out of Bounds");
-        }
-
-        return *(item.at(index));
-    }
-
-    /**
-     * Removes the specified object from the item list
-     * @param index the index of the item to remove
-     * @return a pointer to the specified object
-     * NOTE: Throws "Index Out of Bounds" exception if given invalid index
-     */
-    Object& removeItem(int index) {
-        if(index >= item.size() || index < 0) {
-            throw std::string("Index Out of Bounds");
-        }
-
-        Object& obj = getItem(index);
-
-        item.erase(index);
-
-        return obj;
-    }
-
-    /**
-     * Gets a string holding the names of every item in the room
-     * @return a string holding every item in the room sepearated by a newline
-     */
-    string getItemString() const;
-
-    /**
-     * Prints the items in the room
-     */
-    void printItems() const { cout << getItemString(); }
+    Inventory& getInventory() const { return inventory; }
 
     /**
      * Overloaded << operator that prints all the info about a given room to the provided ostream
