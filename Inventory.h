@@ -37,7 +37,8 @@ public:
      * Removes and returns the inventory item at the specified location
      * @param item the index of the item to get
      * @return the item at the specified index
-     * NOTE: Throws "Index Out of Bounds" exception if given invalid index
+     * NOTE: Throws "Index Out of Bounds" exception if given invalid index, or "Immovable Object" if given an
+     *       Immovable Object such as a Trigger
      */
     Object& removeItem(int item);
 

@@ -5,10 +5,10 @@
 #include "Player.h"
 
 bool Player::traverse(Direction d) {
-    Room& r = location;
+    Room& r = *location;
 
     try {
-        r = location.getConnection(d).traverse(); // try traversing
+        r = (*location).getConnection(d).traverse(); // try traversing
     } catch(std::string errMsg) {
         if(errMsg == std::string("Index Out of Bounds")) { // handle out of bounds
             std::cout << "...whatever direction you just input isn't...real...sadly, this game does not allow you to "
@@ -17,21 +17,31 @@ bool Player::traverse(Direction d) {
             std::cout << "The direction you input doesn't lead to a passageway." << std::endl
                       << "You seem to remember being told in your youth to never leave the trail, presumably this must "
                       << "be similar, please try again." << std::endl;
+        } else {
+            std::cout << "ERROR: " << errMsg << std::endl;
         }
 
         return false;
     }
 
-    location = r; // update location
+    location = &r; // update location
+
+    return true;
 }
 
 void Player::pickUp(int item) {
     Object* o = nullptr;
 
     try {
-        o = &location.getInventory().removeItem(item);
+        o = &(*location).getInventory().removeItem(item);
     } catch(std::string errMsg) {
-        std::cout << "There is no matching item, please try a different command." << std::endl;
+        if(errMsg == std::string("Index Out of Bounds")) {
+            std::cout << "There is no matching item, please try a different command." << std::endl;
+        } else if(errMsg == std::string("Immovable Object")) {
+            std::cout << "That object is immovable, and cannot be picked up." << std::endl;
+        } else {
+            std::cout << "ERROR: " << errMsg << std::endl;
+        }
 
         return; // stop running
     }
@@ -48,13 +58,19 @@ void Player::setDown(int item) {
     try {
         o = &inventory.removeItem(item);
     } catch(std::string errMsg) {
-        std::cout << "There is no matching item, please try a different command." << std::endl;
+        if(errMsg == std::string("Index Out of Bounds")) {
+            std::cout << "There is no matching item, please try a different command." << std::endl;
+        } else if(errMsg == std::string("Immovable Object")) {
+            std::cout << "That object cannot be put down." << std::endl;
+        } else {
+            std::cout << "ERROR: " << errMsg << std::endl;
+        }
 
         return; // stop running
     }
 
     // add only if valid
     if(o != nullptr) {
-        location.getInventory().addItem(*o);
+        (*location).getInventory().addItem(*o);
     }
 }

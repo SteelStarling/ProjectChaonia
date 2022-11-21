@@ -4,6 +4,7 @@
 //
 
 #include "Inventory.h"
+#include "Trigger.h"
 
 Object& Inventory::getItem(int item) {
     if(item >= inventory.size() || item < 0) {
@@ -14,11 +15,16 @@ Object& Inventory::getItem(int item) {
 }
 
 Object& Inventory::removeItem(int item) {
-    if(item >= inventory.size() || item < 0) {
+    if(item >= inventory.size() || item < 0) { // handle out of bounds
         throw std::string("Index Out of Bounds");
     }
 
     Object& o = *inventory.at(item);
+
+    if(typeid(o) == typeid(Trigger)) { // handle immovable objects TODO: Update later to actually have Immovable class
+        throw std::string("Immovable Object");
+    }
+
     inventory.erase(inventory.begin() + item); // delete specified element
 
     return o;
@@ -33,7 +39,7 @@ std::string Inventory::getItemString() const {
 
     // Note: endl was being weird, so we're just using \n here
 
-    if(inventory.size() > 0) { // only print if big enough
+    if(inventory.empty()) { // only print if big enough
         itemString += holdDescription + "\n"; // print description
 
         for(int i = 0; i < inventory.size(); i++) {

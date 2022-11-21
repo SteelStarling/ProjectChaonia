@@ -11,7 +11,7 @@
 #include <vector>
 
 class Object {
-private:
+protected:
     std::string name;           // holds the object's name
     std::string description;    // holds the object's description
 public:

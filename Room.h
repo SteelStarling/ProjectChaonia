@@ -10,6 +10,9 @@
 #include "Connection.h"
 #include "Inventory.h"
 
+#include <string>
+#include <vector>
+
 enum Direction {
     NORTH,
     NORTHEAST,
@@ -24,10 +27,12 @@ enum Direction {
     NUM_DIR // holds number of directions for maxval checking
 };
 
+class Connection; // forward declaration
+
 class Room : public Object {
 private:
     Inventory inventory; // holds all items present in the room
-    Connection* connections[NUM_DIR]; // holds all connections
+    std::vector<Connection*> connections; // holds all connections
 public:
 
     /**
@@ -42,15 +47,15 @@ public:
     /**
      * Sets the connection in the direction
      * @param d the direction to set the connection in
-     * @param c the connection to set
+     * @param c pointer to the connection to set
      * NOTE: Throws Index Out of Bounds exception if given non-enum specified direction
      */
-    void setConnection(Direction d, Connection& c) {
+    void setConnection(Direction d, Connection* c) {
         if(d >= NUM_DIR || d < 0) {
             throw std::string("Index Out of Bounds");
         }
 
-        connections[d] = &c;
+        connections.at(d) = c;
     }
 
     /**
@@ -62,18 +67,26 @@ public:
     Connection& getConnection(Direction d) const {
         if(d >= NUM_DIR || d < 0) {
             throw std::string("Index Out of Bounds");
-        } else if(connections[d] == nullptr) {
+        } else if(connections.at(d) == nullptr) {
             throw std::string("Invalid Direction");
         }
 
-        return *(connections[d]);
+        return *(connections.at(d));
     }
 
     /**
      * Gets the inventory of the given room
      * @return the room's inventory
      */
-    Inventory& getInventory() const { return inventory; }
+    Inventory& getInventory() { return inventory; }
+
+    /**
+     * Gets the item string of the inventory in the given room
+     * @return the room's item string
+     */
+    std::string getItemString() const {
+        return inventory.getItemString();
+    }
 
     /**
      * Overloaded << operator that prints all the info about a given room to the provided ostream

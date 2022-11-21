@@ -13,7 +13,7 @@
 // As a side note, yes, this could be handled by a boolean right now, but I have a sneaking suspicion that that may change down the road, and reimplementing this didn't sound like fun
 // TODO: Handle how flags are going to be managed globally
 class Flag {
-private:
+protected:
     std::string name; // name of Flag
     bool state; // binary is just a true or false statement, used for most flags
 public:

@@ -8,8 +8,10 @@
 #include "Room.h"
 #include "Object.h"
 
+class Room; // forward declaration
+
 class Connection : public Object {
-private:
+protected:
     Room& roomTo;
 public:
     /**
