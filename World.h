@@ -26,8 +26,6 @@ class World {
 protected:
     const std::string fileName;
 
-    std::string fileText; // holds entire text of worldFile.txt
-
     // holds player
     Player* player;
 

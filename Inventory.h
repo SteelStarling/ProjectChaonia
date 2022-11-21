@@ -34,6 +34,14 @@ public:
     Object& getItem(int item);
 
     /**
+     * Gets the size of the inventory
+     * @return the size of the inventory
+     */
+    int getSize() {
+        return inventory.size();
+    }
+
+    /**
      * Removes and returns the inventory item at the specified location
      * @param item the index of the item to get
      * @return the item at the specified index

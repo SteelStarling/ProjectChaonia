@@ -190,9 +190,126 @@ World::World(std::string fileName) : fileName(fileName) {
 
 void World::play() {
     std::cout << player->getLocation() << std::endl;
-    player->traverse(NORTH);
-    player->traverse(SOUTH);
-    player->traverse(UP);
-    player->traverse(DOWN);
-    player->traverse(UP);
+
+    int inputVal = 0;
+    while(inputVal != 6) { // loop until exit command given
+        std::cout << "Would you like to: " << std::endl << "    1. Move" << std::endl << "    2. Pick Up" << std::endl << "    3. Drop" << std::endl << "    4. Look Around" << std::endl << "    5. Inventory" << std::endl << "    6. Exit" << std::endl;
+
+        std::cin >> inputVal;
+        if(!std::cin) {
+            std::cin.clear();
+            std::cin.ignore(INT_MAX, '\n');
+
+            std::cout << "Invalid Input! Try Again!" << std::endl;
+        } else {
+            std::cin.ignore(INT_MAX, '\n');
+            std::string dir = "";
+            int val = -1;
+            switch(inputVal) {
+                case 1:
+                    std::cout << "Which direction do you want to move? (N, NE, E, SE, S, SW, W, NW, U, D, or Q to Quit)" << std::endl;
+                    std::getline(std::cin, dir);
+                    while(!std::cin || (dir != std::string("N") && dir != std::string("NE") && dir != std::string("E")
+                                     && dir != std::string("SE") && dir != std::string("S") && dir != std::string("SW")
+                                     && dir != std::string("W") && dir != std::string("NW") && dir != std::string("U")
+                                                                    && dir != std::string("D") && dir != std::string("Q"))) {
+
+                        if(!std::cin) {
+                            std::cin.clear();
+                            std::cin.ignore(INT_MAX, '\n');
+                        }
+
+                        std::cout << "Invalid Input! Try Again!" << std::endl;
+
+                        std::cout << "Which direction do you want to move? (N, NE, E, SE, S, SW, W, NW, U, D, or Q to Quit)" << std::endl;
+                        std::getline(std::cin, dir);
+                    }
+                    std::cin.ignore(INT_MAX, '\n');
+
+                    // perform correct traversal
+                    if(dir == std::string("N")) {
+                        player->traverse(NORTH);
+                    } else if(dir == std::string("NE")) {
+                        player->traverse(NORTHEAST);
+                    } else if(dir == std::string("E")) {
+                        player->traverse(EAST);
+                    } else if(dir == std::string("SE")) {
+                        player->traverse(SOUTHEAST);
+                    } else if(dir == std::string("S")) {
+                        player->traverse(SOUTH);
+                    } else if(dir == std::string("SW")) {
+                        player->traverse(SOUTHWEST);
+                    } else if(dir == std::string("W")) {
+                        player->traverse(WEST);
+                    } else if(dir == std::string("NW")) {
+                        player->traverse(NORTHWEST);
+                    } else if(dir == std::string("U")) {
+                        player->traverse(UP);
+                    } else if(dir == std::string("D")) {
+                        player->traverse(DOWN);
+                    }
+
+                    break;
+                case 2:
+                    // only run if size is large enough
+                    if(player->getLocation().getInventory().getSize() > 0) {
+                        player->getLocation().getInventory().printInventory();
+                        std::cout << "Input item number to pick up: " << std::endl;
+                        std::cin >> val;
+                        while(!std::cin  || val >= player->getLocation().getInventory().getSize() || val < 0) { // clear if needed
+
+                            if(!std::cin) {
+                                std::cin.clear();
+                                std::cin.ignore(INT_MAX, '\n');
+                            }
+
+                            std::cout << "Invalid Input: Try again!" << std::endl;
+
+                            std::cout << player->getInventory().getSize() << std::endl;
+
+                            std::cout << "Input item number to pick up: " << std::endl;
+                            std::cin >> val;
+                        }
+                        std::cin.ignore(INT_MAX, '\n');
+
+                        player->pickUp(val);
+                    } else {
+                        std::cout << "You can't pick up nothing!" << std::endl;
+                    }
+
+                    break;
+                case 3:
+                    // only run if size is large enough
+                    if(player->getInventory().getSize() > 0) {
+                        player->getInventory().printInventory();
+                        std::cout << "Input item number to drop: " << std::endl;
+                        std::cin >> val;
+                        while(!std::cin || val >= player->getInventory().getSize() || val < 0) { // clear if needed
+                            if(!std::cin) {
+                                std::cin.clear();
+                                std::cin.ignore(INT_MAX, '\n');
+                            }
+
+                            std::cout << "Invalid Input: Try again!" << std::endl;
+
+                            std::cout << "Input item number to drop: " << std::endl;
+                            std::cin >> val;
+                        }
+                        std::cin.ignore(INT_MAX, '\n');
+
+                        player->setDown(val);
+                    } else {
+                        std::cout << "You can't drop nothing!" << std::endl;
+                    }
+
+                    break;
+                case 4:
+                    std::cout << player->getLocation() << std::endl;
+                    break;
+                case 5:
+                    player->getInventory().printInventory();
+                    break;
+            }
+        }
+    }
 }

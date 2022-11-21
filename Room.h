@@ -103,13 +103,6 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Room& room);
 
-    /**
-     * Overloads the assignmnt operator
-     * @param original the value to set things to
-     * @return a new operator
-     */
-    //Room& operator=(const Room& original);
-
 };
 
 /**
