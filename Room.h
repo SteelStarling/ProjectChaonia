@@ -30,9 +30,10 @@ enum Direction {
 class Connection; // forward declaration
 
 class Room : public Object {
-private:
+protected:
     Inventory inventory; // holds all items present in the room
     std::vector<Connection*> connections; // holds all connections
+
 public:
 
     /**
@@ -40,7 +41,9 @@ public:
      * @param name the name of the room
      * @param description the description of the room
      */
-    Room(std::string name, std::string description);
+    Room(const std::string name, const std::string description);
+
+    Room(const Room& original) : Object(original.name, original.description), inventory(original.inventory), connections(original.connections) {}
 
     //NOTE: We only handle pointers here, because we want to ensure that objects cannot be destroyed without good reason - All objects are stored in the Object Master List held by the game itself.
 
@@ -55,7 +58,7 @@ public:
             throw std::string("Index Out of Bounds");
         }
 
-        connections.at(d) = c;
+        connections[d] = c;
     }
 
     /**
@@ -64,7 +67,7 @@ public:
      * @return the specified connection
      * NOTE: Throws Index Out of Bounds exception if given non-enum specified direction, or Invalid Direction if given an unset direction
      */
-    Connection& getConnection(Direction d) const {
+    Connection& getConnection(Direction d) {
         if(d >= NUM_DIR || d < 0) {
             throw std::string("Index Out of Bounds");
         } else if(connections.at(d) == nullptr) {
@@ -73,6 +76,12 @@ public:
 
         return *(connections.at(d));
     }
+
+    /**
+     * Gets the connection string of the given room
+     * @return the room's connections string
+     */
+    std::string getConnectionString() const;
 
     /**
      * Gets the inventory of the given room
@@ -84,9 +93,7 @@ public:
      * Gets the item string of the inventory in the given room
      * @return the room's item string
      */
-    std::string getItemString() const {
-        return inventory.getItemString();
-    }
+    std::string getItemString() const { return inventory.getItemString(); }
 
     /**
      * Overloaded << operator that prints all the info about a given room to the provided ostream
@@ -96,7 +103,22 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Room& room);
 
+    /**
+     * Overloads the assignmnt operator
+     * @param original the value to set things to
+     * @return a new operator
+     */
+    //Room& operator=(const Room& original);
+
 };
+
+/**
+ * Converts a direction to a string
+ * @param d the direction to convert
+ * @return a string corresponding to the direction
+ * NOTE: Throws "Index Out of Bounds" exception if given invalid direction
+ */
+std::string directionToString(Direction d);
 
 
 #endif //PROJECTCHAONIA_ROOM_H

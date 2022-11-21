@@ -27,15 +27,18 @@ public:
      * @param roomTo the room to connect to
      * @param name the name of the connection
      */
-    Connection(Room& roomTo, std::string name) : roomTo(roomTo), Object(name, "A passage leads away") {}
+    Connection(Room& roomTo, std::string name = "Room") : roomTo(roomTo), Object(name, "A passage leads away") {}
+
+    /**
+     * Copy Constructor
+     */
+    Connection(const Connection& original) : roomTo(original.roomTo), Object(original.getName(), original.getDescription()) {}
 
     /**
      * Traverses a connection, returning the corresponding room
      * @return room across the connection
      */
-    virtual Room& traverse() {
-        return roomTo;
-    }
+    virtual Room& traverse() { return roomTo; }
 };
 
 

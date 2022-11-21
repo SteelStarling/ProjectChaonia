@@ -19,15 +19,18 @@ World::World(std::string fileName) : fileName(fileName) {
     std::string flagName;
     std::string direction;
 
+    // reserve space so that flag sizes never change
+    flags.reserve(MAX_VALS);
+    rooms.reserve(MAX_VALS);
+    objects.reserve(MAX_VALS);
+    triggers.reserve(MAX_VALS);
+
     //
     //  FLAGS
     //
 
-    std::cout << "A" << std::endl;
-
     int flagCount = 0;
     fin >> flagCount;
-    std::cout << "Flag Count: " << flagCount << std::endl;
     std::getline(fin, temp); // ignore newline issues
 
     for(int i = 0; i < flagCount; i++) {
@@ -40,7 +43,7 @@ World::World(std::string fileName) : fileName(fileName) {
 
         // add flag to list and map
         Flag flag(name, state);
-        flags.push_back(flag);
+        flags.at(i) = flag;
         flagMap[name] = &flags.back();
     }
 
@@ -48,11 +51,8 @@ World::World(std::string fileName) : fileName(fileName) {
     //  ROOMS
     //
 
-    std::cout << "B" << std::endl;
-
     int roomCount = 0;
     fin >> roomCount;
-    std::cout << "Room Count: " << roomCount << std::endl;
     std::getline(fin, temp); // ignore newline issues
 
     for(int i = 0; i < roomCount; i++) {
@@ -60,8 +60,6 @@ World::World(std::string fileName) : fileName(fileName) {
         //
         //  ROOM BASIC INFO
         //
-
-        std::cout << "C" << std::endl;
 
         // get room name and description
         std::getline(fin, name);
@@ -76,8 +74,6 @@ World::World(std::string fileName) : fileName(fileName) {
         //  ROOM CONTENTS
         //
 
-        std::cout << "D" << std::endl;
-
         int objCount = 0;
         fin >> objCount;
         std::getline(fin, temp); // ignore newline issues
@@ -89,14 +85,12 @@ World::World(std::string fileName) : fileName(fileName) {
             // add object to list and room
             Object obj(name, description);
             objects.push_back(obj);
-            rooms.back().getInventory().addItem(objects.back());
+            rooms[i].getInventory().addItem(objects.back());
         }
 
         //
         //  ROOM TRIGGERS
         //
-
-        std::cout << "E" << std::endl;
 
         int trigCount = 0;
         fin >> trigCount;
@@ -106,23 +100,19 @@ World::World(std::string fileName) : fileName(fileName) {
             std::getline(fin, name);
             std::getline(fin, description);
             std::getline(fin, descriptionOff);
-            std::getline(fin, temp); // holds flag
+            std::getline(fin, name2); // holds flag
 
-            Flag& flag = *flagMap[temp]; // get flag
+            Flag& flag = *flagMap[name2]; // get flag
 
             // add trigger to list and room
             Trigger trig(flag, name, description, descriptionOff);
             triggers.push_back(trig);
-            rooms.back().getInventory().addItem(objects.back());
+            rooms[i].getInventory().addItem(triggers.back());
         }
     }
 
-    std::cout << "F" << std::endl;
-
     // add player
     this->player = new Player(rooms.at(0));
-
-    std::cout << "G" << std::endl;
 
     // connect rooms
     for(int i = 0; i < roomCount; i++) {
@@ -132,9 +122,8 @@ World::World(std::string fileName) : fileName(fileName) {
         int numConnections = 0;
         fin >> numConnections;
         std::getline(fin, temp); // ignore newline issues
-        for(int j = 0; j < numConnections; j++) {
 
-            std::cout << "H" << std::endl;
+        for(int j = 0; j < numConnections; j++) {
 
             // get connection type
             char c = 'n';
@@ -154,10 +143,11 @@ World::World(std::string fileName) : fileName(fileName) {
 
             // get connected room and direction
             std::getline(fin, name3);
-            Room& room = *roomMap[name2];
-            std::getline(fin, direction);
 
-            std::cout << "I" << std::endl;
+
+            Room& roomTo = *roomMap[name3];
+            Room& roomFrom = *roomMap[name];
+            std::getline(fin, direction);
 
             Direction dir;
             if(direction == std::string("N")) {
@@ -184,13 +174,14 @@ World::World(std::string fileName) : fileName(fileName) {
                 throw std::string("ERROR: Invalid direction! " + direction + " is not a valid direction!");
             }
 
+            const std::string& descriptionStore = description;
             if(c == 'f') {
                 Flag& flag = *flagMap[flagName];
-                FlaggedConnection connection(room, name2, description, descriptionOff, descriptionErr, flag);
-                room.setConnection(dir, &connection);
+                FlaggedConnection* connection = new FlaggedConnection(roomTo, name2, descriptionStore, descriptionOff, descriptionErr, flag);
+                roomFrom.setConnection(dir, connection);
             } else {
-                Connection connection(room, name2, description);
-                room.setConnection(dir, &connection);
+                Connection* connection = new Connection(roomTo, name2, descriptionStore);
+                roomFrom.setConnection(dir, connection);
             }
 
         }
@@ -198,5 +189,10 @@ World::World(std::string fileName) : fileName(fileName) {
 }
 
 void World::play() {
-    std::cout << (*player).getLocation() << std::endl;
+    std::cout << player->getLocation() << std::endl;
+    player->traverse(NORTH);
+    player->traverse(SOUTH);
+    player->traverse(UP);
+    player->traverse(DOWN);
+    player->traverse(UP);
 }

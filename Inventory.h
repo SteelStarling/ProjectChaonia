@@ -13,7 +13,7 @@
 
 
 class Inventory {
-private:
+protected:
     // TODO: Implement weighted inventory class that limits max weights
     std::string holdDescription; // explains how the objects are held e.g. "you are holding" or "on the floor"
     std::vector<Object*> inventory;

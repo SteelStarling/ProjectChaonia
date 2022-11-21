@@ -5,10 +5,10 @@
 #include "Player.h"
 
 bool Player::traverse(Direction d) {
-    Room& r = *location;
+    Room* r = location;
 
     try {
-        r = (*location).getConnection(d).traverse(); // try traversing
+        r = &location->getConnection(d).traverse(); // try traversing
     } catch(std::string errMsg) {
         if(errMsg == std::string("Index Out of Bounds")) { // handle out of bounds
             std::cout << "...whatever direction you just input isn't...real...sadly, this game does not allow you to "
@@ -24,7 +24,9 @@ bool Player::traverse(Direction d) {
         return false;
     }
 
-    location = &r; // update location
+    location = r; // update location
+
+    std::cout << *location << std::endl;
 
     return true;
 }
@@ -33,7 +35,7 @@ void Player::pickUp(int item) {
     Object* o = nullptr;
 
     try {
-        o = &(*location).getInventory().removeItem(item);
+        o = &location->getInventory().removeItem(item);
     } catch(std::string errMsg) {
         if(errMsg == std::string("Index Out of Bounds")) {
             std::cout << "There is no matching item, please try a different command." << std::endl;
@@ -71,6 +73,6 @@ void Player::setDown(int item) {
 
     // add only if valid
     if(o != nullptr) {
-        (*location).getInventory().addItem(*o);
+        location->getInventory().addItem(*o);
     }
 }

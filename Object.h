@@ -12,8 +12,8 @@
 
 class Object {
 protected:
-    std::string name;           // holds the object's name
-    std::string description;    // holds the object's description
+    const std::string name;           // holds the object's name
+    const std::string description;    // holds the object's description
 public:
 
     //TODO: Solve a vs an programmatically, but that's a problem for future Taylor
@@ -23,13 +23,13 @@ public:
      * @param name the name of the object
      * @param description a description of the object
      */
-    Object(const std::string& name, const std::string& description);
+    Object(const std::string name, const std::string description);
 
     /**
      * Creates a new object with a given name
      * @param name the name of the object
      */
-    Object(const std::string& name);
+    Object(const std::string name);
 
     /**
      * Returns the object's name

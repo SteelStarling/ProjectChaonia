@@ -35,7 +35,6 @@ Room N Name \
 &emsp;&emsp;Connection 1 (Open) Description \
 &emsp;&emsp;(Connection 1 Closed Description) \
 &emsp;&emsp;(Connection 1 Error Description) \
-&emsp;&emsp;(Flag N Name, if applicable) \
 &emsp;&emsp;Connection 1 Room Name \
 &emsp;&emsp;Connection 1 Direction (N, NE, E, SE, S, SW, W, NW, U, D) \
 &emsp;... \

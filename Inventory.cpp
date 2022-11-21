@@ -39,7 +39,7 @@ std::string Inventory::getItemString() const {
 
     // Note: endl was being weird, so we're just using \n here
 
-    if(inventory.empty()) { // only print if big enough
+    if(!inventory.empty()) { // only print if big enough
         itemString += holdDescription + "\n"; // print description
 
         for(int i = 0; i < inventory.size(); i++) {

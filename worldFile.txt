@@ -3,6 +3,7 @@
 Main Room
 The main room of a building
 0
+0
 Study
 A room filled with books
 3
@@ -12,6 +13,7 @@ The 7 1/2 Deaths of Evelyn Hardcastle
 A good book about time travel.
 A Brief History of Time
 The spine isn't even cracked.
+0
 Kitchen
 A room with a table in the middle and with a strange fireman's pole descending from above.
 3
@@ -31,19 +33,25 @@ Main Room
 N
 Study
 2
+n
 StudyToKitchen
 A fireman's pole descends into the ground
 Kitchen
 D
+n
 StudyToMain
 A passage to the north connects to what looks to be a staircase
 Main Room
 N
+Main Room
 2
+n
 MainToStudy
 A stairway leads up
 Study
 U
+n
 MainToKitchen
 A small arch leads south into another room
+Kitchen
 S
